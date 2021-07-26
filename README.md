@@ -1,21 +1,16 @@
-1. Client
-Install Dependencies 
-# npm install or # yarn install
+# Server
+. cd server
+. npm install or yarn install
+. npm run dev
 
-start
-# npm start
+# Client
+. cd client
+. npm install or yarn install 
+. npm start or yarn start
 
-2. Server 
-Install Dependencies 
-# npm install or # yarn install
+# Connect to database(MongoDB)
+. Add env file with mongoDB URI and password
 
-3. start app locally
-# npm run dev
-
-4. Connect to database(MongoDB)
-# Add .env file with mongoDB URI and password
-
-5. Visit
 
 
 
