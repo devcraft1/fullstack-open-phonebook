@@ -1,12 +1,12 @@
 # Server
-cd server
-npm install or yarn install
-npm run dev
+1. cd server
+2. npm install or yarn install
+3. npm run dev
 
 # Client
-cd client
-npm install or yarn install 
-npm start or yarn start
+1. cd client
+2. npm install or yarn install 
+3. npm start or yarn start
 
 # Connect to database(MongoDB)
-Add env file with mongoDB URI and password
+1. Add env file with mongoDB URI and password
