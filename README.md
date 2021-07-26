@@ -9,4 +9,4 @@
 3. npm start or yarn start
 
 # Connect to database(MongoDB)
-1.Add env file with mongoDB URI and password
+1. Add env file with mongoDB URI and password
