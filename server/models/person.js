@@ -5,7 +5,7 @@ require("dotenv").config();
 mongoose.set("useFindAndModify", false);
 mongoose.set("useCreateIndex", true);
 
-const url = process.env.MONGODB_URI;
+let url = process.env.MONGODB_URI;
 
 console.log("connecting to", url);
 
