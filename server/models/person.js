@@ -18,7 +18,7 @@ mongoose
     console.log("error connecting to MongoDB:", error.message);
   });
 
-const personchema = new mongoose.Schema({
+const personSchema = new mongoose.Schema({
   name: {
     type: String,
     minlength: 3,
@@ -30,7 +30,7 @@ const personchema = new mongoose.Schema({
   },
 });
 
-personchema.set("toJSON", {
+personSchema.set("toJSON", {
   transform: (document, returnedObject) => {
     returnedObject.id = returnedObject._id.toString();
     delete returnedObject._id;
@@ -38,5 +38,5 @@ personchema.set("toJSON", {
   },
 });
 
-personchema.plugin(uniqueValidator);
-module.exports = mongoose.model("Person", personchema);
+personSchema.plugin(uniqueValidator);
+module.exports = mongoose.model("Person", personSchema);
