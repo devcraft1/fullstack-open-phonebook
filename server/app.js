@@ -1,9 +1,26 @@
 const express = require("express");
+const mongoose = require("mongoose");
 const app = express();
+const personRouter = require("./controllers/person");
 const bodyParser = require("body-parser");
 const morgan = require("morgan");
 const cors = require("cors");
-const Person = require("./models/person");
+const config = require("./utils/config");
+const logger = require("./utils/logger");
+
+logger.info("connecting to", { database: config.MONGODB_URI });
+
+mongoose
+  .connect(config.MONGODB_URI, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  })
+  .then((result) => {
+    logger.info("connected to MongoDB");
+  })
+  .catch((error) => {
+    logger.error("error connecting to MongoDB:", error.message);
+  });
 
 morgan.token("body", function (req) {
   return JSON.stringify(req.body);
@@ -12,78 +29,11 @@ morgan.token("body", function (req) {
 app.use(express.static("build"));
 app.use(bodyParser.json());
 app.use(cors());
+
 app.use(
   morgan(":method :url :status :res[content-length] - :response-time ms :body")
 );
-
-app.get("/info", (request, response) => {
-  Person.find({}).then((persons) => {
-    const content = `
-      Phonebook has info for ${persons.length} people
-      <br/><br/>
-      ${new Date()}
-    `;
-    response.send(content);
-  });
-});
-
-app.get("/api/persons", (request, response) => {
-  Person.find().then((persons) => {
-    response.json(persons.map((p) => p.toJSON()));
-  });
-});
-
-app.get("/api/persons/:id", (request, response, next) => {
-  Person.findById(request.params.id)
-    .then((note) => {
-      if (note) {
-        response.json(note.toJSON());
-      } else {
-        response.status(404).end();
-      }
-    })
-    .catch((error) => next(error));
-});
-
-app.post("/api/persons", (request, response, next) => {
-  const body = request.body;
-
-  if (!body.name || !body.number) {
-    return response.status(400).json({
-      error: "name or number missing",
-    });
-  }
-
-  const person = new Person({
-    name: body.name,
-    number: body.number,
-  });
-
-  person
-    .save()
-    .then((savedPerson) => {
-      response.json(savedPerson.toJSON());
-    })
-    .catch((error) => next(error));
-});
-
-app.put("/api/persons/:id", (request, response, next) => {
-  const { name, number } = request.body;
-
-  Person.findByIdAndUpdate(request.params.id, { name, number }, { new: true })
-    .then((updatedPerson) => {
-      response.json(updatedPerson.toJSON());
-    })
-    .catch((error) => next(error));
-});
-
-app.delete("/api/persons/:id", (request, response, next) => {
-  Person.findByIdAndRemove(request.params.id)
-    .then(() => {
-      response.status(204).end();
-    })
-    .catch((error) => next(error));
-});
+app.use("/api/persons", personRouter);
 
 const errorHandler = (error, request, response, next) => {
   console.error(error.message);
