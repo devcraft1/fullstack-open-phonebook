@@ -1,12 +1,10 @@
-const info = (...params) => {
-  console.log(...params);
-};
+require("dotenv").config();
 
-const error = (...params) => {
-  console.error(...params);
-};
+const MONGODB_URI = process.env.MONGODB_URI;
+
+const PORT = process.env.PORT;
 
 module.exports = {
-  info,
-  error,
+  MONGODB_URI,
+  PORT,
 };

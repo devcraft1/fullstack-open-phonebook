@@ -1,10 +1,9 @@
 const express = require("express");
+const app = express();
 const bodyParser = require("body-parser");
 const morgan = require("morgan");
 const cors = require("cors");
 const Person = require("./models/person");
-
-const app = express();
 
 morgan.token("body", function (req) {
   return JSON.stringify(req.body);
@@ -99,3 +98,5 @@ const errorHandler = (error, request, response, next) => {
 };
 
 app.use(errorHandler);
+
+module.exports = app;
