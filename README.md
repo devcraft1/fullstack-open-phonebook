@@ -10,3 +10,6 @@
 
 # Connect to database(MongoDB)
 1. Add env file with mongoDB URI and password.
+
+# Visit and add your number
+https://fullstackopen-project-app.herokuapp.com/
